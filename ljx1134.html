@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[信息]-概念版</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-color: #222;
+        color: white;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .quiz {
+        display: none;
+      }
+
+      button {
+        background-color: #3498db;
+        color: white;
+        padding: 15px 30px;
+        margin: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 18px;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #2980b9;
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <div class="options">
+      <h1>欢迎进入[信息]-概念版！</h1>
+      <button onclick="startQuiz()">开始答题</button>
+    </div>
+
+    <div class="quiz" id="quiz">
+      <h2 id="question"></h2>
+      <div id="options"></div>
+    </div>
+
+    <script>
+      let currentQuestion = 0;
+      let score = 0;
+
+      #question{
+         font-size: 16px;
+      }
+      const quizData = [{
+          question: "《三字经》中写道：“青赤黄，及黑白，此五色，目所识。酸苦甘，及辛咸，此五味，口所含。膻焦香，及腥朽，此五臭，鼻所嗅。宫商角，及徵羽，此五音，耳所取。”对信息的传递过程而言，这句话表达的是（   ）。",
+          options: ["A.信息存储", "B.信息发布", "C.信息获取", "D.信息处理"],
+          answer: "C.信息获取"
+        },
+        {
+          question: "在元旦晚会上，小李拍了很多精美的相片，他把这些相片制作成电子相册分享到班级群，制作电子相册的过程属于（   ）。",
+          options: ["A.信息的加工", "B.信息的存储", "C.信息的获取", "D.信息的发布"],
+          answer: "A.信息的加工"
+        },
+        {
+          question: "有人说：“两个人交换各自手中的一个苹果，每个人手中还是一个苹果。两个人交换所掌握的信息，每个人就具有两份信息。”这个说法反映了信息的（   ）。",
+          options: ["A.时效性", "B.发散性", "C.传递性", "D.共享性"],
+          answer: "D.共享性"
+        },
+        {
+          question: "又盲又聋的人不能获取信息。",
+          options: ["正确", "错误"],
+          answer: "错误"
+        },
+        {
+          question: "信息技术不只是现代科技的产物，在古代也有信息技术的应用。",
+          options: ["正确", "错误"],
+          answer: "正确"
+        },
+      ];
+
+      function startQuiz() {
+        document.querySelector(".options").style.display = "none";
+        document.querySelector(".quiz").style.display = "block";
+        showQuestion();
+      }
+
+      function showQuestion() {
+        const questionElem = document.getElementById("question");
+        const optionsElem = document.getElementById("options");
+
+        questionElem.textContent = quizData[currentQuestion].question;
+        optionsElem.innerHTML = "";
+
+        quizData[currentQuestion].options.forEach(option => {
+          const button = document.createElement("button");
+          button.textContent = option;
+          button.addEventListener("click", () => checkAnswer(option));
+          optionsElem.appendChild(button);
+        });
+      }
+
+      function checkAnswer(selectedOption) {
+        const answer = quizData[currentQuestion].answer;
+        const feedback = document.createElement("p");
+
+        if (selectedOption === answer) {
+          feedback.textContent = "✔️";
+          score++;
+        } else {
+          feedback.textContent = "❌";
+        }
+
+        document.getElementById("options").appendChild(feedback);
+
+        currentQuestion++;
+
+        setTimeout(() => {
+          if (currentQuestion < quizData.length) {
+            showQuestion();
+          } else {
+            endQuiz();
+          }
+        }, 500);
+      }
+
+      function endQuiz() {
+        document.getElementById("quiz").innerHTML = `<h2>答题结束！您的得分：${score}/${quizData.length}</h2>`;
+      }
+
+    </script>
+  </body>
+
+</html>
